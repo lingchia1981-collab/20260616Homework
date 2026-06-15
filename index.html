@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美和的第五堂中文課 - Listening Quiz</title>
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --primary-hover: #357ABD;
+            --success-color: #7CB342;
+            --success-hover: #689F38;
+            --bg-color: #F4F7F9;
+            --card-bg: #FFFFFF;
+            --text-color: #2C3E50;
+            --border-color: #E2E8F0;
+        }
+        body {
+            /* 中文字型強制改為標楷體優先，英文字型保留 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, "標楷體", "Microsoft JhengHei";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 30px 20px;
+            font-size: 20px; /* 大幅放大基礎字體，體貼老花眼 */
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 35px;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 36px; /* 放大標題 */
+        }
+        
+        /* 姓名輸入欄位樣式 */
+        .student-info-box {
+            background: #FFF9E6;
+            border: 2px solid #FFE0B2;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .student-info-box label {
+            font-weight: bold;
+            font-size: 24px;
+            color: #E65100;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .student-info-box input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 22px;
+            font-family: "標楷體", "Microsoft JhengHei";
+            border: 2px solid #CBD5E1;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .section-title {
+            font-size: 28px; /* 放大章節標題 */
+            font-weight: bold;
+            color: #2C3E50;
+            border-left: 8px solid var(--primary-color);
+            padding-left: 15px;
+            margin: 40px 0 25px 0;
+            background: #EBF3FC;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 4px 4px 0;
+        }
+        .dialogue-box {
+            background: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .dialogue-info {
+            font-size: 22px; /* 放大了 */
+            color: #475569;
+            font-weight: 500;
+        }
+        .question-card {
+            background: #FCFDFD;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        .question-card h3 {
+            font-size: 24px; /* 放大英文題目提示 */
+            margin-top: 0;
+        }
+        .question-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border-color: #CBD5E1;
+        }
+        .audio-control {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .play-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 35px; /* 放大按鈕方便點擊 */
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px; /* 放大按鈕文字 */
+            transition: background 0.2s;
+            white-space: nowrap;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .play-btn:hover {
+            background-color: var(--primary-hover);
+        }
+        .play-btn.playing {
+            background-color: #E67E22;
+        }
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color); /* 加粗邊框 */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            font-size: 22px; /* 大幅放大選項中文字 */
+        }
+        .option-label:hover {
+            background-color: #F8FAFC;
+            border-color: #CBD5E1;
+        }
+        .option-left {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .option-label input {
+            margin-right: 15px;
+            width: 24px; /* 放大勾選圓圈，方便老年人手部操作點擊 */
+            height: 24px;
+            accent-color: var(--primary-color);
+            flex-shrink: 0;
+        }
+        .opt-audio-btn {
+            padding: 6px 18px;
+            font-size: 14px;
+            border-radius: 15px;
+        }
+        .action-area {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border-color);
+        }
+        .submit-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 24px; /* 放大提交按鈕 */
+            border-radius: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(124, 179, 66, 0.3);
+            transition: all 0.2s;
+            font-family: 'Segoe UI', "標楷體", sans-serif;
+        }
+        .submit-btn:hover {
+            background-color: var(--success-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(124, 179, 66, 0.4);
+        }
+        #scoreDisplay {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 30px;
+            background-color: #E8F5E9;
+            border: 2px solid #A5D6A7;
+            border-radius: 12px;
+            color: #2E7D32;
+        }
+        #scoreDisplay h2 {
+            margin: 0 0 15px 0;
+            font-size: 36px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 20px; /* 放大解析字體 */
+            display: none;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .correct-feedback { color: #2E7D32; background-color: #E8F5E9; }
+        .incorrect-feedback { color: #C62828; background-color: #FFEBEE; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>美和的第五堂中文課 - Listening Quiz</h1>
+    </header>
+
+    <form id="quizForm">
+        <div class="student-info-box">
+            <label for="studentName">👤 學生姓名 (Student Name)：</label>
+            <input type="text" id="studentName" required placeholder="請輸入您的中文或英文名字...">
+        </div>
+
+        <div class="section-title">Part1. 有</div>
+
+        <div class="question-card" data-correct="C">
+            <h3>Q1: Please listen to the audio, and select the most accurate text statement.</h3>
+            <div class="audio-control">
+                <button type="button" class="play-btn" onclick="speakText(this, 'p1_q1')">
+                    ▶ Play
+                </button>
+            </div>
+
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q1" value="A">
+                        <span>(A) 他沒有兄弟姐妹。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" title="Listen option A" onclick="speakText(this, 'p1_q1_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q1" value="B">
+                        <span>(B) 他有兩個妹妹。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" title="Listen option B" onclick="speakText(this, 'p1_q1_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q1" value="C">
+                        <span>(C) 他沒有姐姐。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" title="Listen option C" onclick="speakText(this, 'p1_q1_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! He has an older brother, a younger sister, and a younger brother. Therefore, "he doesn't have an older sister" is correct!</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Listen closely to the family members mentioned (哥哥、妹妹、弟弟).</div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <h3>Q2: Please listen to the audio, and select the most accurate text statement.</h3>
+            <div class="audio-control">
+                <button type="button" class="play-btn" onclick="speakText(this, 'p1_q2')">
+                    ▶ Play
+                </button>
+            </div>
+
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q2" value="A">
+                        <span>(A) 他有咖啡，也有烏龍茶。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p1_q2_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q2" value="B">
+                        <span>(B) 他沒有咖啡，也沒有烏龍茶。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p1_q2_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q2" value="C">
+                        <span>(C) 他有咖啡，沒有烏龍茶。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p1_q2_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! The audio says "我有咖啡，沒有烏龍茶", which perfectly matches option C.</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Listen carefully to what he has and what he doesn't have.</div>
+        </div>
+
+
+        <div class="section-title">Part2. 都</div>
+
+        <div class="question-card" data-correct="A">
+            <h3>Q3: Please listen to the audio, and select the most accurate text statement.</h3>
+            <div class="audio-control">
+                <button type="button" class="play-btn" onclick="speakText(this, 'p2_q1')">
+                    ▶ Play
+                </button>
+            </div>
+
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q3" value="A">
+                        <span>(A) 他們都喜歡照相</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q1_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q3" value="B">
+                        <span>(B) 他們都不喜歡照相</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q1_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q3" value="C">
+                        <span>(C) 他們不都喜歡照相</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q1_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! "A喜歡...B也喜歡..." represents the inclusive "都喜歡".</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Both individuals share a positive interest in taking photos.</div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <h3>Q4: Please listen to the audio, and select the most accurate text statement.</h3>
+            <div class="audio-control">
+                <button type="button" class="play-btn" onclick="speakText(this, 'p2_q2')">
+                    ▶ Play
+                </button>
+            </div>
+
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q4" value="A">
+                        <span>(A) 他們都是日本人</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q2_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q4" value="B">
+                        <span>(B) 他們都不裝日本人</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q2_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q4" value="C">
+                        <span>(C) 他們不都是日本人</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q2_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! One is Japanese and two are Taiwanese, meaning partial negation "不都是".</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Since nationalities vary, it is a partial negation scenario.</div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <h3>Q5: Please listen to the audio, and select the most accurate text statement.</h3>
+            <div class="audio-control">
+                <button type="button" class="play-btn" onclick="speakText(this, 'p2_q3')">
+                    ▶ Play
+                </button>
+            </div>
+
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q5" value="A">
+                        <span>(A) 咖啡、烏龍茶，我都喜歡</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q3_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q5" value="B">
+                        <span>(B) 咖啡、烏龍茶，我都不喜歡</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q3_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q5" value="C">
+                        <span>(C) 咖啡、烏龍茶，我不都喜歡</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p2_q3_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! "不喜歡...也不喜歡..." indicates complete negation "我都不喜歡".</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. This statement implies absolute dislike for both options.</div>
+        </div>
+
+
+        <div class="section-title">Part3. Dialogue Comprehension</div>
+
+        <div class="dialogue-box">
+            <div class="dialogue-info">🎧 Please listen to the full context dialogue first before answering Q6 - Q10:</div>
+            <div class="audio-control" style="margin-bottom: 0;">
+                <button type="button" class="play-btn" onclick="speakText(this, '02-01.mp3')">
+                    ▶ Play
+                </button>
+            </div>
+        </div>
+
+        <div class="question-card" data-correct="A">
+            <h3>Q6: What does Antong think of Yijun's house?</h3>
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q6" value="A">
+                        <span>(A) 很漂亮</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q1_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q6" value="B">
+                        <span>(B) 很大</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q1_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q6" value="C">
+                        <span>(C) 有很多照片</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q1_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! Antong compliments: "很漂亮的房子！" right away.</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Re-evaluate the dialogue's initial opening remark.</div>
+        </div>
+
+        <div class="question-card" data-correct="B">
+            <h3>Q7: What does Antong want to drink?</h3>
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q7" value="A">
+                        <span>(A) 咖啡</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q2_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q7" value="B">
+                        <span>(B) 茶</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q2_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q7" value="C">
+                        <span>(C) 都不要</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q2_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! Yijun offered tea ("要不要喝茶？") and Antong accepted ("好，謝謝你").</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Observe the hospitality sequence carefully.</div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <h3>Q8: What are there many of in Yijun's house?</h3>
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q8" value="A">
+                        <span>(A) 很多茶</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q3_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q8" value="B">
+                        <span>(B) 很多咖啡</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q3_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q8" value="C">
+                        <span>(C) 很多照片</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q3_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! Antong explicitly points out: "你家有很多照片。"</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Antong commented on a specific item decor.</div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <h3>Q9: Which of the following statements is true based on the dialogue?</h3>
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q9" value="A">
+                        <span>(A) 怡君有哥哥、弟弟</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q4_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q9" value="B">
+                        <span>(B) 怡君的家人不喜歡照相</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q4_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q9" value="C">
+                        <span>(C) 怡君的家人很好看</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q4_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! Antong closes the chat with a sweet praise: "你家人都很好看。"</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Yijun has a sister ("妹妹") and her family loves photos ("很喜歡照相").</div>
+        </div>
+
+        <div class="question-card" data-correct="C">
+            <h3>Q10: According to the audio, whose house is Antong at?</h3>
+            <div class="options-group">
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q10" value="A">
+                        <span>(A) 安同的家。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q5_a')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q10" value="B">
+                        <span>(B) 老師的家。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q5_b')">▶ Play</button>
+                </label>
+                <label class="option-label">
+                    <div class="option-left">
+                        <input type="radio" name="q10" value="C">
+                        <span>(C) 在怡君的家。</span>
+                    </div>
+                    <button type="button" class="play-btn opt-audio-btn" onclick="speakText(this, 'p3_q5_c')">▶ Play</button>
+                </label>
+            </div>
+            <div class="feedback correct-feedback">✓ Correct! Yijun says "這是我家。請進！" at the very beginning, so Antong is at Yijun's house.</div>
+            <div class="feedback incorrect-feedback">❌ Incorrect. Listen carefully to the opening greeting line: "這是我家。請進！".</div>
+        </div>
+
+        <div class="action-area">
+            <button type="button" id="submitBtn" class="submit-btn" onclick="checkAnswers()">Submit Answers</button>
+        </div>
+    </form>
+
+    <div id="scoreDisplay">
+        <h2>Quiz Completed!</h2>
+        <div id="scoreText" style="font-size: 24px; font-weight: bold;"></div>
+        <p style="margin: 10px 0 0 0; color: #555; font-size: 20px;">Detailed feedback comments have been shown under each question card above.</p>
+    </div>
+</div>
+
+<script>
+    let currentAudio = null;
+    let currentPlayingButton = null;
+
+    function decodeCloak(str) {
+        const dict = {
+            "p1_q1": "他有哥哥、妹妹、弟弟。",
+            "p1_q1_a": "A, 他沒有兄弟姐妹。",
+            "p1_q1_b": "B, 他有兩個妹妹。",
+            "p1_q1_c": "C, 他沒有姐姐。",
+
+            "p1_q2": "我有咖啡，沒有烏龍茶。",
+            "p1_q2_a": "A, 他有咖啡，也有烏龍茶。",
+            "p1_q2_b": "B, 他沒有咖啡，也沒有烏龍茶。",
+            "p1_q2_c": "C, 他有咖啡，沒有烏龍茶。",
+
+            "p2_q1": "張先生喜歡照相，程先生也喜歡照相。",
+            "p2_q1_a": "A, 他們都喜歡照相。",
+            "p2_q1_b": "B, 他們都不喜歡照相。",
+            "p2_q1_c": "C, 他們不都喜歡照相。",
+
+            "p2_q2": "程小姐是日本人，張小姐是台灣人，程先生是台灣人。",
+            "p2_q2_a": "A, 他們都是日本人。",
+            "p2_q2_b": "B, 他們都不是日本人。",
+            "p2_q2_c": "C, 他們不都是日本人。",
+
+            "p2_q3": "我不喜歡喝咖啡，也不喜歡喝烏龍茶。",
+            "p2_q3_a": "A, 咖啡、烏龍茶，我都喜歡。",
+            "p2_q3_b": "B, 咖啡、烏龍茶，我都不喜歡。",
+            "p2_q3_c": "C, 咖啡、烏龍茶，我不都喜歡。",
+            
+            "p3_q1_a": "A，很漂亮。",
+            "p3_q1_b": "B，很大。",
+            "p3_q1_c": "C，有很多照片。",
+
+            "p3_q2_a": "A，咖啡。",
+            "p3_q2_b": "B，茶。",
+            "p3_q2_c": "C，都不要。",
+
+            "p3_q3_a": "A，很多茶。",
+            "p3_q3_b": "B，很多咖啡。",
+            "p3_q3_c": "C，很多照片。",
+
+            "p3_q4_a": "A，怡君有哥哥、弟弟。",
+            "p3_q4_b": "B，怡君的家人不喜歡照相。",
+            "p3_q4_c": "C，怡君的家人很好看。",
+
+            "p3_q5_a": "A，安同的家。",
+            "p3_q5_b": "B，老師的家。",
+            "p3_q5_c": "C，怡君的家。"
+        };
+        return dict[str] || "語音載入中";
+    }
+
+    function speakText(button, cloakId) {
+        const rate = 1.0;
+
+        // 如果按鈕當前正在播放，點擊它就暫停並重置
+        if (currentAudio && currentPlayingButton === button) {
+            currentAudio.pause();
+            resetButtonState(button);
+            currentAudio = null;
+            return;
+        }
+
+        // 如果目前有別的音檔在播，先切斷並重置前一個按鈕
+        if (currentAudio) {
+            currentAudio.pause();
+            if (currentPlayingButton) {
+                resetButtonState(currentPlayingButton);
+            }
+        }
+
+        currentPlayingButton = button;
+        button.classList.add('playing');
+        button.innerText = "Stop";
+
+        // --- 核心邏輯修改：判斷是否為特定的 MP3 檔案名稱 ---
+        if (cloakId === '02-01.mp3') {
+            currentAudio = new Audio();
+            currentAudio.src = cloakId; // 直接讀取同目錄下的 02-01.mp3
+
+            currentAudio.onended = function() {
+                resetButtonState(button);
+                currentAudio = null;
+            };
+
+            currentAudio.onerror = function() {
+                alert("找不到指定的對話音檔 '02-01.mp3'，請確認檔案是否與網頁在同一個資料夾。");
+                resetButtonState(button);
+                currentAudio = null;
+            };
+
+            currentAudio.play().catch(err => {
+                console.log("外部 MP3 播放受限：", err);
+                resetButtonState(button);
+            });
+            
+            return; // 執行完自訂 MP3 的播放後，跳出函式，不走底下的 Google TTS 機制
+        }
+
+        // --- 以下維持原有的 Google TTS 朗讀邏輯 (適用於 Q1~Q10) ---
+        const rawChineseText = decodeCloak(cloakId);
+        const encodedText = encodeURIComponent(rawChineseText);
+        
+        const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=zh-TW&client=tw-ob&ttsspeed=1`;
+
+        currentAudio = new Audio();
+        currentAudio.src = googleTtsUrl;
+
+        currentAudio.onended = function() {
+            resetButtonState(button);
+            currentAudio = null;
+        };
+
+        currentAudio.onerror = function() {
+            console.log("自動切換至備援引擎。");
+            const fallbackUtterance = new SpeechSynthesisUtterance(rawChineseText);
+            fallbackUtterance.lang = 'zh-TW';
+            fallbackUtterance.rate = rate;
+            fallbackUtterance.onend = function() {
+                resetButtonState(button);
+            };
+            window.speechSynthesis.speak(fallbackUtterance);
+        };
+
+        currentAudio.play().catch(err => {
+            console.log("播放受限，嘗試備援：", err);
+            const fallbackUtterance = new SpeechSynthesisUtterance(rawChineseText);
+            fallbackUtterance.lang = 'zh-TW';
+            fallbackUtterance.rate = rate;
+            fallbackUtterance.onend = function() {
+                resetButtonState(button);
+            };
+            window.speechSynthesis.speak(fallbackUtterance);
+        });
+    }
+
+    function resetButtonState(btn) {
+        btn.classList.remove('playing');
+        btn.innerText = "▶ Play";
+        currentPlayingButton = null;
+    }
+
+    function checkAnswers() {
+        // 檢查姓名是否填寫
+        const nameInput = document.getElementById('studentName');
+        const studentName = nameInput.value.trim();
+        if (!studentName) {
+            alert('請先輸入您的姓名再提交！\nPlease enter your name before submitting!');
+            nameInput.focus();
+            return;
+        }
+
+        const cards = document.querySelectorAll('.question-card[data-correct]');
+        let score = 0;
+        let total = cards.length;
+        let answerRecord = []; 
+
+        document.querySelectorAll('.feedback').forEach(f => f.style.display = 'none');
+
+        cards.forEach((card, index) => {
+            const selectedOpt = card.querySelector(`input[type="radio"]:checked`);
+            const correctAns = card.getAttribute('data-correct');
+            const qNum = index + 1;
+
+            if (selectedOpt) {
+                const userAns = selectedOpt.value;
+                answerRecord.push(`Q${qNum}:${userAns}`); 
+                if (userAns === correctAns) {
+                    score++;
+                    card.querySelector('.correct-feedback').style.display = 'block';
+                } else {
+                    card.querySelector('.incorrect-feedback').style.display = 'block';
+                }
+            } else {
+                answerRecord.push(`Q${qNum}:未答`);
+                card.querySelector('.incorrect-feedback').style.display = 'block';
+            }
+        });
+
+        // 顯示學生的當下分數畫面
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreText = document.getElementById('scoreText');
+        scoreText.innerText = `Your Score: ${score} / ${total} (Accuracy: ${Math.round((score/total)*100)}%)`;
+        scoreDisplay.style.display = 'block';
+        scoreDisplay.scrollIntoView({ behavior: 'smooth' });
+
+        // --- 直接連線至雲端硬碟試算表的 Apps Script Web App ---
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbx1K3k_FOmE2hsqn5Zd8uc0uuaUOo1_ggsy-osoI8DeoqBv3IA62x8Xh9GcjVeq4j0v/exec"; 
+        
+        const scoreStr = `${score} / ${total}`;
+        const detailedAnswers = answerRecord.join(', ');
+
+        const urlParams = new URLSearchParams();
+        urlParams.append('studentName', studentName);
+        urlParams.append('score', scoreStr);
+        urlParams.append('answers', detailedAnswers);
+
+        fetch(webAppUrl, {
+            method: 'POST',
+            body: urlParams,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            mode: 'no-cors' 
+        }).then(() => {
+            console.log("資料已成功直接寫入雲端硬碟試算表！");
+        }).catch((err) => {
+            console.error("傳送失敗：", err);
+        });
+    }
+</script>
+
+</body>
+</html>
